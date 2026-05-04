@@ -52,6 +52,9 @@ services:
       - backend
     environment:
       VITE_API_BASE_URL: http://localhost:8001
+      VITE_USE_POLLING: "true"
+      # Browser hits host port 5174; HMR WebSocket must use the same (see vite.config.ts).
+      VITE_HMR_CLIENT_PORT: "5174"
     ports:
       # Host 5174 if another Vite app already uses 5173.
       - "5174:5173"
