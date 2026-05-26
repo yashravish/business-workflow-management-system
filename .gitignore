@@ -20,3 +20,14 @@ test-results/
 
 # Docker
 *.log
+
+# Java / Maven (added for Java backend translation)
+backend/target/
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+build/
+.mvn/
+!backend/.mvn/wrapper/maven-wrapper.jar

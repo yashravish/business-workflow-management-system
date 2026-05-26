@@ -105,7 +105,7 @@ export default function ReportsPage() {
       <section className="card" aria-label="Tasks by status">
         <h3>Tasks by status</h3>
         <div className="table-wrapper">
-          <table className="data-table">
+          <table className="data-table data-table--summary">
             <thead>
               <tr>
                 <th>Status</th>
@@ -135,7 +135,7 @@ export default function ReportsPage() {
       <section className="card" aria-label="Tasks by priority">
         <h3>Tasks by priority</h3>
         <div className="table-wrapper">
-          <table className="data-table">
+          <table className="data-table data-table--summary">
             <thead>
               <tr>
                 <th>Priority</th>
@@ -201,7 +201,7 @@ export default function ReportsPage() {
       <section className="card" aria-label="Approval summary">
         <h3>Approval summary</h3>
         <div className="table-wrapper">
-          <table className="data-table">
+          <table className="data-table data-table--summary">
             <thead>
               <tr>
                 <th>Decision</th>

@@ -197,6 +197,27 @@ textarea {
     box-shadow var(--transition-fast);
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%2378716c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='1 1.5 6 6.5 11 1.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  cursor: pointer;
+}
+
+select:hover:not(:disabled) {
+  border-color: var(--color-text-subtle);
+}
+
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -458,6 +479,16 @@ table.data-table {
   font-size: 14px;
 }
 
+/* 2-column count tables: pin column widths so the Count column aligns across cards. */
+table.data-table--summary {
+  table-layout: fixed;
+}
+
+table.data-table--summary th:last-child,
+table.data-table--summary td:last-child {
+  width: 40%;
+}
+
 table.data-table thead th {
   text-align: left;
   font-family: var(--font-body);
@@ -617,7 +648,25 @@ table.data-table td a:hover {
 .split {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;
   gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+/* Force cards inside a .split row to fill the grid cell so paired rectangles match. */
+.split > .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Cards inside a .split are grid siblings, not stacked — cancel the .card + .card top margin. */
+.split > .card + .card {
+  margin-top: 0;
+}
+
+/* Breathing room between a split row and a standalone card that follows it. */
+.split + .card {
   margin-top: var(--space-6);
 }
 

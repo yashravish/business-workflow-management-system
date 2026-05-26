@@ -25,24 +25,17 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql+psycopg2://workflow:workflow@db:5432/workflow
-      JWT_SECRET_KEY: change-me-in-production
-      JWT_ALGORITHM: HS256
-      JWT_EXPIRE_MINUTES: "480"
-      CORS_ORIGINS: '["http://localhost:5173","http://localhost:5174","http://127.0.0.1:5173","http://127.0.0.1:5174","http://localhost:3000"]'
-      ENVIRONMENT: development
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: workflow
+      DB_USER: workflow
+      DB_PASSWORD: workflow
+      # Must be ≥ 32 characters for HS256; override in production.
+      APP_SECRET_KEY: change-me-in-production-use-min-32-chars
+      CORS_ORIGINS: "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174,http://localhost:3000"
     ports:
-      # Host 8001 if another process already uses 8000.
-      - "8001:8000"
-    volumes:
-      - ./backend:/app
-    # Mounted Windows checkout can use CRLF; strip CR before running entrypoint.
-    command:
-      - sh
-      - -c
-      - >-
-        sed -i 's/\r$$//' /app/scripts/entrypoint.sh 2>/dev/null || true;
-        exec sh /app/scripts/entrypoint.sh
+      # Host 8001 → container 8080 (Spring Boot default).
+      - "8001:8080"
 
   frontend:
     build:

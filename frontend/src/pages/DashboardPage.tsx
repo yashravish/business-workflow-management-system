@@ -191,8 +191,7 @@ export default function DashboardPage() {
                 <div>
                   <strong>{formatStatus(log.action)}</strong>
                   <div className="meta">
-                    {log.user ? `${log.user.name} (${log.user.role})` : 'System'} ·{' '}
-                    {log.entity_type} #{log.entity_id ?? '-'}
+                    {log.user ? `${log.user.name} (${log.user.role})` : 'System'}
                   </div>
                 </div>
                 <div className="meta">{formatDateTime(log.created_at)}</div>
