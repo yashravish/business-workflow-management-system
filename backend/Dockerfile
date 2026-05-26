@@ -1,23 +1,24 @@
-FROM python:3.11-slim
+# ── Build stage ───────────────────────────────────────────────────────────────
+FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /build
 
+# Resolve dependencies first so this layer is cached across source-only changes
+COPY pom.xml .
+RUN mvn -B dependency:resolve -q
+
+COPY src ./src
+RUN mvn -B package -DskipTests -q
+
+# ── Runtime stage ─────────────────────────────────────────────────────────────
+FROM eclipse-temurin:21-jre-alpine AS runtime
+
+RUN addgroup -S bwms && adduser -S bwms -G bwms
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc libpq-dev curl \
-    && rm -rf /var/lib/apt/lists/*
+COPY --from=builder --chown=bwms:bwms /build/target/*.jar app.jar
 
-COPY requirements.txt /app/requirements.txt
-RUN pip install -r requirements.txt
+USER bwms
+EXPOSE 8080
 
-COPY . /app
-
-RUN chmod +x /app/scripts/entrypoint.sh
-
-EXPOSE 8000
-
-CMD ["/app/scripts/entrypoint.sh"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
