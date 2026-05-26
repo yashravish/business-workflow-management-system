@@ -1,9 +1,11 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 
 export default function NavBar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const onCreateTask = location.pathname === '/tasks/new';
 
   function handleLogout() {
     logout();
@@ -20,7 +22,12 @@ export default function NavBar() {
         <NavLink to="/dashboard" end>
           Dashboard
         </NavLink>
-        <NavLink to="/tasks">Tasks</NavLink>
+        <NavLink
+          to="/tasks"
+          className={({ isActive }) => (isActive && !onCreateTask ? 'active' : '')}
+        >
+          Tasks
+        </NavLink>
         <NavLink to="/tasks/new">Create Task</NavLink>
         <NavLink to="/reports">Reports</NavLink>
         <NavLink to="/audit-logs">Audit Logs</NavLink>

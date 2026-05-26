@@ -1,3 +1,12 @@
+target
+.git
+.gitignore
+.DS_Store
+.env
+*.iml
+.idea
+.vscode
+# legacy python remnants — not built into the Java image
 __pycache__
 *.pyc
 *.pyo
@@ -5,8 +14,10 @@ __pycache__
 .pytest_cache
 .venv
 venv
-.env
 *.sqlite
-.git
-.gitignore
-.DS_Store
+app
+alembic
+alembic.ini
+pytest.ini
+requirements.txt
+scripts

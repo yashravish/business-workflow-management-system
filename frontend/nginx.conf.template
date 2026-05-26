@@ -1,0 +1,26 @@
+server {
+    listen ${PORT};
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # SPA: serve index.html for unknown routes so React Router can handle them
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Long-cache hashed assets emitted by Vite under /assets/
+    location /assets/ {
+        access_log off;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Lightweight health endpoint for Railway's healthcheck
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+}
